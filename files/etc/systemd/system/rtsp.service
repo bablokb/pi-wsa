@@ -4,7 +4,7 @@ After=multi-user.target
  
 [Service]
 Type=simple
-ExecStart=/usr/local/bin/h264_v4l2_rtspserver -H 400 -W 600 -F 25 /dev/video0,default
+ExecStart=/usr/local/bin/h264_v4l2_rtspserver -H 400 -W 600 -F 25 -C 1 -a S16_LE /dev/video0,default
 
 [Install]
 WantedBy=basic.target
