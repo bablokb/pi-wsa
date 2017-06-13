@@ -47,7 +47,7 @@ fi
 
 # --- Video starten   -------------------------------------------------------
 
-sudo -u $WSA_USER "ssh $REMOTE_HOST 'sudo start rtsp.service'"
+sudo -u $WSA_USER ssh $REMOTE_HOST 'sudo systemctl start rtsp.service'
 
 # --- Omxplayer starten   ---------------------------------------------------
 
@@ -55,5 +55,5 @@ DESKTOP_USER=$(ps -C "notification-daemon" --no-headers -o "%U")
 export DISPLAY=":0.0"
 export XAUTHORITY="/home/$DESKTOP_USER/.Xauthority"
 
-su - $DESKTOP_USER -c -b \
-   "omxplayer -o alsa --win 100,100,700,500 --live rtsp://$REMOTE_HOST:8554/unicast"
+su - $DESKTOP_USER -c \
+   "omxplayer -o alsa --win 100,100,700,500 --live rtsp://$REMOTE_HOST:8554/unicast" &
