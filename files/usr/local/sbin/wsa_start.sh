@@ -24,7 +24,7 @@ rtime="${4%.*}"
 PIN="17"
 VALUE="0"
 RTIME="30"               # notwendige Wiederholzeit in Sekunden
-REMOTE_HOST="pizero"     # Hostname des entfernten Hosts
+REMOTE_HOST="raspi"      # Hostname des entfernten Hosts
 WSA_USER="pi"            # Username auf lokalen und entferntem Host
 
 # --- Sicherheitsabfragen   ------------------------------------------------
@@ -57,3 +57,8 @@ export XAUTHORITY="/home/$DESKTOP_USER/.Xauthority"
 
 su - $DESKTOP_USER -c \
    "omxplayer -o alsa --win 100,100,700,500 --live rtsp://$REMOTE_HOST:8554/unicast" &
+
+# --- Status auf aktiv setzen   ---------------------------------------------
+
+echo "aktiv" > /var/run/wsa
+chown $DESKTOP_USER /var/run/wsa
