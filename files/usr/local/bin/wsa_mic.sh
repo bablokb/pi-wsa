@@ -39,6 +39,8 @@ fi
 # --- Tonübertragung steuern   ---------------------------------------------
 
 if [ "$status" = "aktiv" ]; then
+  echo -e "Starte Tonübertragung Wohnung -> Tür" >&2
+
   # Mikrofone konfigurieren
   amixer set Mic 80%                      # lokales Mikrofon auf Standard
   ssh $REMOTE_HOST "amixer set Mic 0  "   # remote  Mikrofon stumm schalten
@@ -47,6 +49,8 @@ if [ "$status" = "aktiv" ]; then
   ( arecord -f cd -D stereo_mic & echo "$!" > /var/run/wsa )  | \
                                                   ssh -C $REMOTE_HOST aplay
 else
+  echo -e "Starte Tonübertragung Tür -> Wohnung" >&2
+
   # status ist PID von arecord - per kill stoppen ...
   kill -9 "$status"
 
