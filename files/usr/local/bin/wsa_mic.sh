@@ -47,7 +47,7 @@ if [ "$status" = "aktiv" ]; then
 
   # Übertragung starten und PID in Datei schreiben
   ( arecord -f cd -D stereo_mic & echo "$!" > /var/run/wsa )  | \
-                                                  ssh -C $REMOTE_HOST aplay
+                                                  ssh -C $REMOTE_HOST aplay &
 else
   echo -e "Starte Tonübertragung Tür -> Wohnung" >&2
 
