@@ -42,8 +42,8 @@ if [ "$status" = "aktiv" ]; then
   echo -e "Starte Tonübertragung Wohnung -> Tür" >&2
 
   # Mikrofone konfigurieren
-  amixer set Mic 80%                      # lokales Mikrofon auf Standard
-  ssh $REMOTE_HOST "amixer set Mic 0  "   # remote  Mikrofon stumm schalten
+  amixer set Mic toggle                      # lokales Mikrofon auf Standard
+  ssh $REMOTE_HOST "amixer set Mic toggle"   # remote  Mikrofon stumm schalten
 
   # Übertragung starten und PID in Datei schreiben
   ( arecord -f cd -D stereo_mic & echo "$!" > /var/run/wsa )  | \
@@ -58,6 +58,6 @@ else
   echo "aktiv" > /var/run/wsa
 
   #  ... und Mikrofone zurücksetzen
-  amixer set Mic 0                        # lokales Mikrofon stumm schalten
-  ssh $REMOTE_HOST "amixer set Mic 80%"   # remote  Mikrofon auf Standard setzen
+  amixer set Mic toggle                    # lokales Mikrofon stumm schalten
+  ssh $REMOTE_HOST "amixer set Mic toggle" # remote  Mikrofon auf Standard setzen
 fi
