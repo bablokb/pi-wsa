@@ -27,12 +27,14 @@ REMOTE_HOST="raspi"     # Hostname des entfernten Hosts
 
 if [ ! -f "/var/run/wsa" ]; then
   echo -e "Fehler: WSA nicht angeschaltet!" >&2
+  notify-send -u critical "Keine Aktion: WSA nicht angeschaltet!"
   exit 3
 fi
 
 status=$(cat /var/run/wsa)
 if [ "$status" = "inaktiv" ]; then
   echo -e "Fehler: WSA nicht angeschaltet!" >&2
+  notify-send -u critical "Keine Aktion: WSA nicht angeschaltet!"
   exit 3
 fi
 
@@ -40,6 +42,7 @@ fi
 
 if [ "$status" = "aktiv" ]; then
   echo -e "Starte Tonübertragung Wohnung -> Tür" >&2
+  notify-send -u normal "Starte Tonübertragung Wohnung -> Tür"
 
   # Mikrofone konfigurieren
   amixer set Mic toggle                      # lokales Mikrofon auf Standard
@@ -50,6 +53,7 @@ if [ "$status" = "aktiv" ]; then
                                                   ssh -C $REMOTE_HOST aplay &
 else
   echo -e "Starte Tonübertragung Tür -> Wohnung" >&2
+  notify-send -u normal "Starte Tonübertragung Tür -> Wohnung"
 
   # status ist PID von arecord - per kill stoppen ...
   kill -9 "$status"
