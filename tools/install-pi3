@@ -1,0 +1,66 @@
+#!/bin/bash
+# --------------------------------------------------------------------------
+# Installationsdatei für den Pi3: Steuerskripts
+#
+# Author: Bernhard Bablok
+# License: GPL3
+#
+# Website: https://github.com/bablokb/pi-wsa
+#
+# --------------------------------------------------------------------------
+
+PACKAGES=""
+
+# --- basic packages   ------------------------------------------------------
+
+check_packages() {
+  local p
+  for p in "$@"; do
+    echo -en "Checking $p ... " >&2
+    dpkg -s "$p" 2>/dev/null | grep -q "Status.*ok" || return 0
+    echo "ok" >&2
+  done
+  return 1
+}
+
+install_packages() {
+  if [ -n "$PACKAGES" ] && check_packages $PACKAGES; then
+    echo -e "[INFO] installing additional packages" 2>&1
+    apt-get update
+    apt-get -y install $PACKAGES
+  fi
+}
+
+# --- install specific files   ----------------------------------------------
+
+install_files() {
+  echo -e "[INFO] Installiere Projektdateien" 2>&1
+
+  rand="$RANDOM"
+  if [ -f /etc/asound.conf ]; then
+    # save current configuration
+    mv /etc/asound.conf /etc/asound.conf.$rand
+  fi
+
+  for f in `find $(dirname "$0")/../files.pi0/ -type f`; do
+    cp "$f" "${f#*files.pi0}"
+    chown root:root "${f#*files.pi0}"
+  done
+
+  chmod 755 /usr/local/sbin/wsa_start.sh
+  chmod 755 /usr/local/bin/wsa_mic.sh
+  chmod 755 /usr/local/bin/wsa_stop.sh
+  chmod 644 /etc/asound.conf
+
+  # restore old configuration
+  if [ -f /etc/asound.conf.$rand ]; then
+    mv -f /etc/asound.conf /etc/asound.conf.new
+    mv /etc/asound.conf.$rand /etc/asound.conf
+    echo -e "[INFO] Neue Version der asound.conf gesichert als: /etc/asound.conf.new" 2>&1
+  fi
+}
+
+# --- main program   --------------------------------------------------------
+
+install_packages
+install_files
