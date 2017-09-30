@@ -1,0 +1,11 @@
+<keybind key="Super_L">
+  <action name="Execute">
+    <command>ssh pi0 "sudo systemctl stop rtsp.service"</command>
+  </action>
+</keybind>
+
+<keybind key="Super_R">
+  <action name="Execute">
+    <command>/usr/local/bin/wsa_mic.sh</command>
+  </action>
+</keybind>
