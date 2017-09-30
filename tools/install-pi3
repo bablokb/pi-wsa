@@ -9,7 +9,7 @@
 #
 # --------------------------------------------------------------------------
 
-PACKAGES=""
+PACKAGES="libnotify-bin notification-daemon"
 
 # --- basic packages   ------------------------------------------------------
 
@@ -42,9 +42,9 @@ install_files() {
     mv /etc/asound.conf /etc/asound.conf.$rand
   fi
 
-  for f in `find $(dirname "$0")/../files.pi0/ -type f`; do
-    cp "$f" "${f#*files.pi0}"
-    chown root:root "${f#*files.pi0}"
+  for f in `find $(dirname "$0")/../files.pi3/ -type f`; do
+    cp "$f" "${f#*files.pi3}"
+    chown root:root "${f#*files.pi3}"
   done
 
   chmod 755 /usr/local/sbin/wsa_start.sh

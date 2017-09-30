@@ -9,7 +9,7 @@
 #
 # --------------------------------------------------------------------------
 
-PACKAGES=""
+PACKAGES="liblog4cpp5-dev liblivemedia-dev"
 
 # --- basic packages   ------------------------------------------------------
 
@@ -59,7 +59,18 @@ install_files() {
   fi
 }
 
+# --- configure system   ----------------------------------------------------
+
+configure_system() {
+  # update /etc/modules
+  if ! grep -q "^bcm2835-v4l2" /etc/modules; then
+    echo -e "[INFO] Konfiguriere /etc/modules" 2>&1
+    echo "bcm2835-v4l2" >> /etc/modules
+  fi
+}
+
 # --- main program   --------------------------------------------------------
 
 install_packages
 install_files
+configure_system
