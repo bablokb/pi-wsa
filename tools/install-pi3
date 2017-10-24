@@ -47,6 +47,9 @@ install_files() {
     chown root:root "${f#*files.pi3}"
   done
 
+  chown pi:pi /home/pi/.config/openbox/lxde_pi_rc.wsa.xml
+  chmod 644   /home/pi/.config/openbox/lxde_pi_rc.wsa.xml
+
   chmod 755 /usr/local/sbin/wsa_start.sh
   chmod 755 /usr/local/bin/wsa_mic.sh
   chmod 755 /usr/local/bin/wsa_stop.sh
